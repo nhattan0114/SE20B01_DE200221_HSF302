@@ -49,6 +49,27 @@ public class Main {
         hr.addEmployee(e4);
         departmentDAO.save(hr);
 
+
+        // ==========================================
+        // TODO 2.8: Tái hiện N+1 Query Problem
+        // ==========================================
+        System.out.println("\n--- TODO 2.8: N+1 PROBLEM (Kiem tra log console) ---");
+
+        // Mở EntityManager trực tiếp ở đây để duy trì Session trong lúc lặp
+        jakarta.persistence.EntityManager em = JPAUtil.getEMF().createEntityManager();
+        try {
+            // 1 câu SELECT lấy tất cả Department
+            List<Department> departmentsLazy = em.createQuery("SELECT d FROM Department d", Department.class).getResultList();
+
+            for (Department d : departmentsLazy) {
+                System.out.println("Dept: " + d.getName());
+                // Lúc này EntityManager vẫn đang mở, Hibernate sẽ gọi thêm N câu SELECT để lấy Employee
+                System.out.println("So nhan vien: " + d.getEmployees().size());
+            }
+        } finally {
+            em.close(); // Đóng EntityManager sau khi đã hoàn tất việc lazy load
+        }
+
         JPAUtil.close();
     }
 }
