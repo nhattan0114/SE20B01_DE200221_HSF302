@@ -1,6 +1,7 @@
 package fu.de200221.pojo;
-
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "departments")
@@ -14,6 +15,10 @@ public class Department {
     private String name;
 
     private String location;
+
+    // TODO 2.3: Inverse side
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Employee> employees = new ArrayList<>();
 
     public Department() {
     }
@@ -30,4 +35,6 @@ public class Department {
     public void setName(String name) { this.name = name; }
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
+    public List<Employee> getEmployees() { return employees; }
+    public void setEmployees(List<Employee> employees) { this.employees = employees; }
 }
