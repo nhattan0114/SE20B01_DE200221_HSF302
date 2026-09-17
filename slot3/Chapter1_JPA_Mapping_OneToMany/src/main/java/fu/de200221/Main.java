@@ -70,6 +70,19 @@ public class Main {
             em.close(); // Đóng EntityManager sau khi đã hoàn tất việc lazy load
         }
 
+
+        // ==========================================
+        // TODO 2.9: Fix N+1 bằng JOIN FETCH
+        // ==========================================
+        System.out.println("\n--- TODO 2.9: FIX N+1 PROBLEM (Kiem tra log console) ---");
+        // Sẽ CHỈ sinh ra ĐÚNG 1 CÂU SELECT lấy tất cả dữ liệu
+        List<Department> departmentsJoinFetch = departmentDAO.findAllWithEmployees();
+        for (Department d : departmentsJoinFetch) {
+            System.out.println("Dept: " + d.getName());
+            // Không sinh thêm câu SQL nào ở bước này vì data đã được load đủ ở trên
+            System.out.println("So nhan vien: " + d.getEmployees().size());
+        }
+
         JPAUtil.close();
     }
 }
