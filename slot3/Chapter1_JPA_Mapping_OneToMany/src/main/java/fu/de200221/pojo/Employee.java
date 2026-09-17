@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -26,6 +27,11 @@ public class Employee {
     private Gender gender;
 
     private boolean active;
+
+    // TODO 2.2: Owning side
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     public Employee() {
     }
@@ -54,6 +60,8 @@ public class Employee {
     public void setGender(Gender gender) { this.gender = gender; }
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+    public Department getDepartment() { return department; }
+    public void setDepartment(Department department) { this.department = department; }
 
     @Override
     public String toString() {
