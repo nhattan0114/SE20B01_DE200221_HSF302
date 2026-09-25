@@ -23,20 +23,20 @@ public class Department {
     @Column(nullable = false, length = 100)
     private String name;
 
-    // Inverse side: "department" là TÊN FIELD bên Student
-    //@OneToMany(mappedBy = "department")
- //   private List<Student> students = new ArrayList<>();
+
+    @OneToMany(mappedBy = "department")
+    private List<Student> students = new ArrayList<>();
 
     public Department(String code, String name) {
         this.code = code;
         this.name = name;
     }
 
-    // Helper đồng bộ 2 chiều
-//    public void addStudent(Student s) {
-//        students.add(s);
-//        s.setDepartment(this);
-//    }
+
+    public void addStudent(Student s) {
+        students.add(s);
+        s.setDepartment(this);
+    }
 
     @Override
     public String toString() {
