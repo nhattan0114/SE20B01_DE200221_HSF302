@@ -143,6 +143,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> searchByKeyword(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return List.of();
+        }
+        return studentRepository.searchByKeyword(keyword.trim());
+    }
+    @Override
     public void flush() {
 
     }
