@@ -5,8 +5,11 @@ import com.hsf302.ch4.pojo.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 public interface DepartmentService extends JpaRepository<Department, Long>, JpaSpecificationExecutor<Student> {
     //Khung interface, các method nghiệp vụ sẽ bổ sung dần từ TODO 6
     long count();                                   // TODO 6
-    boolean existsById(Long id);                    // TODO 6
+    boolean existsById(Long id);
+    List<Department> findDepartmentsWithoutStudents();  // TODO 11d// TODO 6
 }
