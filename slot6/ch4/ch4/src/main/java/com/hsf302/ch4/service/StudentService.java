@@ -13,4 +13,7 @@ public interface StudentService extends JpaRepository<Student, Long> {
     Optional<Student> findById(Long id);
     List<Student> findAllOrderByGpaDesc();                              // TODO 7a
     Page<Student> findPage(int pageIndex, int size, String sortField);  // TODO 7b// TODO 6
+    Optional<Student> findByStudentCode(String studentCode);   // TODO 8a
+    boolean isEmailExisted(String email);                      // TODO 8b
+    long countActive();
 }
