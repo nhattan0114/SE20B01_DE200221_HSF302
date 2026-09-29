@@ -16,4 +16,7 @@ public interface StudentService extends JpaRepository<Student, Long> {
     Optional<Student> findByStudentCode(String studentCode);   // TODO 8a
     boolean isEmailExisted(String email);                      // TODO 8b
     long countActive();
+    List<Student> searchByName(String keyword);        // TODO 9a
+    List<Student> findByEmailDomain(String domain);    // TODO 9b
+    List<Student> findWithoutEmail();                  // TODO 9c
 }
