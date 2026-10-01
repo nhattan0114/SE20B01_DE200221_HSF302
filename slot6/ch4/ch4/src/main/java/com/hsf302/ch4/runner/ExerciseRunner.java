@@ -61,6 +61,7 @@ public class ExerciseRunner implements CommandLineRunner {
     }
 
     private void partE() {
+        todo20();
     }
 
     // ===== helpers =====
@@ -202,6 +203,13 @@ public class ExerciseRunner implements CommandLineRunner {
         title("TODO 24 (Bonus): Specification");
         printList("search(null, AI, 3.0, true)", studentService.search(null, "AI", 3.0, true));
         printList("search(van, null, null, null)", studentService.search("van", null, null, null));
+    }
+
+    private void todo20() {
+        title("TODO 20: Update GPA (dirty checking)");
+        System.out.println("Before: " + studentService.findByStudentCode("SE001").orElseThrow());
+        studentService.updateGpa("SE001", 3.4);
+        System.out.println("After : " + studentService.findByStudentCode("SE001").orElseThrow());
     }
 
 }
