@@ -1,9 +1,11 @@
 package com.hsf302.ch4.runner;
+import com.hsf302.ch4.pojo.Department;
 import com.hsf302.ch4.pojo.Gender;
 import com.hsf302.ch4.pojo.Student;
 import com.hsf302.ch4.service.DepartmentService;
 import com.hsf302.ch4.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.LazyInitializationException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,7 @@ import java.util.List;
 @Component
 @Order(2)
 @RequiredArgsConstructor
-public class ExerciseRunner implements CommandLineRunner{
+public class ExerciseRunner implements CommandLineRunner {
     // Runner CHỈ phụ thuộc vào Service (interface), KHÔNG inject Repository
     private final DepartmentService departmentService;
     private final StudentService studentService;
@@ -30,11 +32,31 @@ public class ExerciseRunner implements CommandLineRunner{
         partE();
     }
 
-    private void partB() { todo6(); todo7(); }
-    private void partC() { todo8(); todo9(); todo10(); todo11(); }
-    private void partD() { todo12(); todo13(); todo14(); todo15(); todo16(); todo17(); todo18(); todo19(); }
-    private void bonus() { todo24(); }
-    private void partE() { todo20(); todo21(); todo22(); todo23(); }
+    private void partB() {
+        todo6();
+        todo7();
+    }
+
+    private void partC() {
+        todo8();
+        todo9();
+        todo10();
+        todo11();
+    }
+
+    private void partD() {
+        todo12();
+        todo13();
+        todo14();
+        todo15();
+        todo16();
+    }
+
+    private void bonus() {
+    }
+
+    private void partE() {
+    }
 
     // ===== helpers =====
     private void title(String t) {
@@ -46,6 +68,7 @@ public class ExerciseRunner implements CommandLineRunner{
         list.forEach(o -> System.out.println("   " + o));
         System.out.println("   -> " + list.size() + " record(s)");
     }
+
     private void todo6() {
         title("TODO 6: count / findById / existsById");
         System.out.println("Departments: " + departmentService.count());
@@ -61,6 +84,7 @@ public class ExerciseRunner implements CommandLineRunner{
 
         System.out.println("existsById(4) department -> " + departmentService.existsById(4L));
     }
+
     private void todo7() {
         title("TODO 7: Sort & Pageable");
 
@@ -75,6 +99,7 @@ public class ExerciseRunner implements CommandLineRunner{
                 + ", hasNext=" + page.hasNext()
                 + ", hasPrevious=" + page.hasPrevious());
     }
+
     private void todo8() {
         title("TODO 8: findBy / existsBy / countBy");
         for (String code : List.of("AI002", "XX999")) {
@@ -85,18 +110,21 @@ public class ExerciseRunner implements CommandLineRunner{
                 + studentService.isEmailExisted("binh.tt@fpt.edu.vn"));
         System.out.println("countActive -> " + studentService.countActive());
     }
+
     private void todo9() {
         title("TODO 9: Containing / EndingWith / IsNull");
         printList("fullName contains 'nguyen'", studentService.searchByName("nguyen"));
         printList("email domain 'gmail.com'", studentService.findByEmailDomain("gmail.com"));
         printList("email is null", studentService.findWithoutEmail());
     }
+
     private void todo10() {
         title("TODO 10: Between / And / True / After");
         printList("GPA in [3.0, 3.6] desc", studentService.findByGpaRange(3.0, 3.6));
         printList("MALE & active", studentService.findActiveByGender(Gender.MALE));
         printList("dob after 2005-01-01", studentService.findBornAfter(LocalDate.of(2005, 1, 1)));
     }
+
     private void todo11() {
         title("TODO 11: Nested property / Top / IsEmpty");
         printList("Students of SE (order by name)", studentService.findByDepartment("SE"));
@@ -104,23 +132,42 @@ public class ExerciseRunner implements CommandLineRunner{
         printList("Top 3 GPA", studentService.findTop3ByGpa());
         printList("Departments without students", departmentService.findDepartmentsWithoutStudents());
     }
+
     private void todo12() {
         title("TODO 12: JPQL + named parameter");
         printList("SE, GPA >= 3.0", studentService.findGoodStudents("SE", 3.0));
     }
+
     private void todo13() {
         title("TODO 13: JPQL LIKE");
         printList("keyword 'hoa'", studentService.searchByKeyword("hoa"));
         printList("keyword 'gmail'", studentService.searchByKeyword("gmail"));
     }
+
     private void todo14() {
         title("TODO 14: Statistics by department (DTO)");
         printList("code | name | total | avgGpa", departmentService.getStatistics());
     }
+
     private void todo15() {
         title("TODO 15: Subquery - GPA above average");
         printList("GPA > AVG", studentService.findAboveAverageGpa());
     }
 
-}
+    private void todo16() {
+        title("TODO 16: LazyInitializationException & JOIN FETCH");
 
+        Department ai = departmentService.findByCode("AI").orElseThrow();
+        try {
+            System.out.println("AI has " + ai.getStudents().size() + " students");
+        } catch (LazyInitializationException e) {
+            System.out.println("(a) Caught: " + e.getClass().getSimpleName());
+            System.out.println("    " + e.getMessage());
+        }
+
+        Department aiFull = departmentService.getWithStudents("AI");
+        System.out.println("(b) " + aiFull);
+        aiFull.getStudents().forEach(s -> System.out.println("     " + s));
+    }
+
+}

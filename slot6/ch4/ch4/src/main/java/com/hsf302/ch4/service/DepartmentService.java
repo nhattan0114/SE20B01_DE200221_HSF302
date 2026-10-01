@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DepartmentService extends JpaRepository<Department, Long>, JpaSpecificationExecutor<Student> {
     //Khung interface, các method nghiệp vụ sẽ bổ sung dần từ TODO 6
@@ -14,4 +15,8 @@ public interface DepartmentService extends JpaRepository<Department, Long>, JpaS
     boolean existsById(Long id);
     List<Department> findDepartmentsWithoutStudents();  // TODO 11d// TODO 6
     List<DepartmentStatDTO> getStatistics();   // TODO 14 (dùng lại ở TODO 23)
+    Optional<Department> findByCode(String code);   // TODO 16a
+    Department getWithStudents(String code);   // TODO 16b
+
+
 }
