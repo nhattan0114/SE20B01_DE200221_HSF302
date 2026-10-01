@@ -34,4 +34,5 @@ public interface StudentService extends JpaRepository<Student, Long> {
     List<Student> findTopNInDepartment(String deptCode, int n);                      // TODO 17
     List<StudentSummary> getActiveSummaries();                                       // TODO 18
     Page<Student> findActiveByDepartment(String deptCode, int pageIndex, int size);  // TODO 19
+    List<Student> search(String kw, String deptCode, Double minGpa, Boolean active); // TODO 24
 }
