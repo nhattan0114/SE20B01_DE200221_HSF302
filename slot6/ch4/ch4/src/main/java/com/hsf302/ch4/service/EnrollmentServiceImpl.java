@@ -52,3 +52,4 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .orElseThrow(() -> new IllegalArgumentException("Course not found: " + courseCode));
     }
 }
+

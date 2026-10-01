@@ -9,3 +9,4 @@ public interface EnrollmentService {
     List<Course> getCoursesOfStudent(String studentCode);
     List<Student> getStudentsOfCourse(String courseCode);
 }
+
