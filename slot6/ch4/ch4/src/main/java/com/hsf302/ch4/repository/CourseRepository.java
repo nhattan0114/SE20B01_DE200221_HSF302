@@ -11,3 +11,4 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findBySemesterOrderByCodeAsc(String semester);
     long countBySemester(String semester);
 }
+

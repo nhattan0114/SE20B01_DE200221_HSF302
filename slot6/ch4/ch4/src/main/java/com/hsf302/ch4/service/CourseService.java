@@ -13,3 +13,4 @@ public interface CourseService {
     List<Course> findBySemester(String semester);
     long countBySemester(String semester);
 }
+
