@@ -36,4 +36,5 @@ public interface StudentService extends JpaRepository<Student, Long> {
     Page<Student> findActiveByDepartment(String deptCode, int pageIndex, int size);  // TODO 19
     List<Student> search(String kw, String deptCode, Double minGpa, Boolean active); // TODO 24
     Student updateGpa(String studentCode, double newGpa);                            // TODO 20
+    int deactivateLowGpa(double threshold);                                          // TODO 21
 }
